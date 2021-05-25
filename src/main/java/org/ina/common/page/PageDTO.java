@@ -1,5 +1,7 @@
 package org.ina.common.page;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +38,22 @@ public class PageDTO {
 		return type.split("");
 	}
 
+	public String getListLink() {
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+								.queryParam("page", this.page)
+								.queryParam("perSheet", this.getPerSheet())
+								.queryParam("type", this.getType())
+								.queryParam("keyword", this.getKeyword());
+		
+		return builder.toUriString();
+	}
 
 	
 }
+
+
+
+
+
+

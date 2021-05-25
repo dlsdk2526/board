@@ -1,8 +1,14 @@
 package org.ina.board.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardAttachVO {
 
 	private String uuid;

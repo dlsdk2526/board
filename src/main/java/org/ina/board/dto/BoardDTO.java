@@ -1,9 +1,9 @@
 package org.ina.board.dto;
 
-
 import java.sql.Date;
+import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.ina.board.domain.BoardAttachVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +24,6 @@ public class BoardDTO {
 	private Date updatedate;
 	
 	private int replyCnt;
+	
+	private List<BoardAttachVO> attachList;
 }

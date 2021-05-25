@@ -3,6 +3,8 @@ package org.ina.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.method.GlobalMethodSecurityBeanDefinitionParser;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = {"org.ina.time.controller",
 							   "org.ina.common.exception",
 							   "org.ina.board.controller"}) //스캔되면서 
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ServletConfig implements WebMvcConfigurer{
 
 	@Override
@@ -58,4 +61,6 @@ public class ServletConfig implements WebMvcConfigurer{
 		
 		return resolver;
 	}
+	
+	
 }

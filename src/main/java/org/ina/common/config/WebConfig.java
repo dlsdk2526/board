@@ -18,7 +18,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		return new Class[] {RootConfig.class,
 							WebConfig.class,
 							TimeConfig.class,
-							BoardConfig.class};
+							BoardConfig.class,
+							SecurityConfig.class};
 	}
 
 	//DispatcherServlet이 애플리케이션 컨텍스트를 WebConfig 설정 클래스(java 설정)에서 정의된 빈으로 로딩하도록 되어있다.

@@ -1,10 +1,7 @@
 package org.ina.board.domain;
 
-
 import java.sql.Date;
 import java.util.List;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;

@@ -1,33 +1,45 @@
 package org.ina.board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.ina.board.domain.BoardAttachVO;
 import org.ina.board.domain.BoardVO;
 import org.ina.board.dto.BoardDTO;
+import org.ina.board.mapper.BoardAttachMapper;
 import org.ina.board.mapper.BoardMapper;
 import org.ina.common.page.PageDTO;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@RequiredArgsConstructor
 @Log4j
 public class BoardServiceImpl implements BoardService {
 	
-	private final BoardMapper boardmapper;
+	@Autowired
+	BoardMapper boardmapper;
+	@Autowired
+	BoardAttachMapper attachMapper;
 	
 	
+	@Transactional
 	@Override
 	public Long register(BoardDTO boardDTO) {
 		
 		BoardVO vo = toDomain(boardDTO);
-		
 		boardmapper.insertSelectkey(vo);
+		
+		if (boardDTO.getAttachList() == null || boardDTO.getAttachList().size() <= 0) {
+			return vo.getBno();
+		}
+		
+		boardDTO.getAttachList().forEach(attach ->{
+			attach.setBno(vo.getBno());
+			attachMapper.insert(attach);
+		});
 		
 		return vo.getBno();
 	}
@@ -36,23 +48,45 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDTO get(Long bno) {
 		return toDTO(boardmapper.read(bno));
 	}
+	
 
+	@Transactional
 	@Override
-	public void modify(BoardDTO boardDTO) {
+	public boolean modify(BoardDTO boardDTO) {
 		
-		boardmapper.update(toDomain(boardDTO));
+		log.info("modify........"+ boardDTO);
+		BoardVO vo = toDomain(boardDTO);
+		
+		attachMapper.deleteAll(vo.getBno()); //일단 이미지 전체 삭제
+		
+		boolean modifyResult = boardmapper.update(vo) == 1;
+		
+		if (modifyResult && boardDTO.getAttachList() != null && boardDTO.getAttachList().size() > 0) {
+			
+			boardDTO.getAttachList().forEach(attach -> {
+				attach.setBno(vo.getBno());
+				attachMapper.insert(attach);
+			});
+		}
+		return modifyResult;
 	}
+		
 
+	@Transactional
 	@Override
-	public void remove(Long bno) {
+	public boolean remove(Long bno) {
 
-		boardmapper.delete(bno);
+		log.info("delete bno....:" + bno);
+		attachMapper.deleteAll(bno);
+		 
+		return boardmapper.delete(bno) == 1;
+		
 	}
 
 	@Override
 	public List<BoardDTO> getList(PageDTO pageDTO) {
 		
-		List<BoardVO> voList = boardmapper.getList(pageDTO.getPage(),
+		List<BoardVO> voList = boardmapper.getList(pageDTO.getSkip(),
 												   pageDTO.getPerSheet(),
 												   pageDTO.getArr(),
 												   pageDTO.getKeyword());
@@ -79,6 +113,14 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int getTotal(PageDTO pageDTO) {
 		return boardmapper.getTotal(pageDTO.getArr(), pageDTO.getKeyword());
+	}
+
+	@Override
+	public List<BoardAttachVO> getAttachList(Long bno) {
+
+		log.info("get attach list by bno: " + bno);
+		
+		return attachMapper.findByBno(bno);
 	}
 
 }

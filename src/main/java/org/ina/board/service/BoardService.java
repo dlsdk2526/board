@@ -2,6 +2,7 @@ package org.ina.board.service;
 
 import java.util.List;
 
+import org.ina.board.domain.BoardAttachVO;
 import org.ina.board.domain.BoardVO;
 import org.ina.board.dto.BoardDTO;
 import org.ina.common.page.PageDTO;
@@ -12,13 +13,15 @@ public interface BoardService {
 	
 	BoardDTO get(Long bno);
 	
-	void modify(BoardDTO boardDTO);
+	boolean modify(BoardDTO boardDTO);
 	
-	void remove(Long bno);
+	boolean remove(Long bno);
 	
 	List<BoardDTO> getList(PageDTO pageDTO);
 	
 	int getTotal(PageDTO pageDTO);
+	
+	List<BoardAttachVO> getAttachList(Long bno);
 	
 	default BoardDTO toDTO(BoardVO vo) {
 		BoardDTO dto = new BoardDTO();

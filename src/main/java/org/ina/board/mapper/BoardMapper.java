@@ -22,9 +22,9 @@ public interface BoardMapper {
 	
 	BoardVO read(Long bno);
 	
-	void delete(Long bno);
+	int delete(Long bno);
 	
-	void update(BoardVO boardVO);
+	int update(BoardVO boardVO);
 	
 	void updateReplyCnt(@Param("bno") Long bno,
 						@Param("amount") int amount); //bno의 증가나 감소를 의미

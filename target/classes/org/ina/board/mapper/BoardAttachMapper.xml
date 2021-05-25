@@ -17,4 +17,12 @@
 		select * from tbl_attach where bno = #{bno}
 	</select>
 	
+	<delete id="deleteAll">
+		delete from tbl_attach where bno = #{bno}
+	</delete>
+	
+	<select id="getOldFiles" resultType="org.ina.board.domain.BoardAttachVO">
+		select * from tbl_attach where uploadPath = date_format(now()-1, '%Y\%m\%d')
+	</select>
+	
 </mapper>

@@ -40,12 +40,12 @@
 	</insert>
 
 	<insert id="insertSelectkey">
-		<selectKey keyProperty="bno" order="AFTER" resultType="long">
-			SELECT last_insert_id()
-		</selectKey>
 		insert into tbl_board (title, content, writer)
 		VALUES
 		(#{title},#{content},#{writer})
+		<selectKey keyProperty="bno" order="AFTER" resultType="long">
+			SELECT last_insert_id()
+		</selectKey>
 	</insert>
 
 	<select id="read" resultType="org.ina.board.domain.BoardVO">

@@ -2,8 +2,14 @@ package org.ina.board.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.ina.board.config.BoardConfig;
+import org.ina.board.domain.BoardAttachVO;
 import org.ina.board.dto.BoardDTO;
+import org.ina.board.mapper.BoardAttachMapper;
 import org.ina.common.config.RootConfig;
 import org.ina.common.page.PageDTO;
 import org.junit.Test;
@@ -21,6 +27,9 @@ public class BoardServiceTests {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private BoardAttachMapper attachMapper;
 	
 	@Test
 	public void testExist() {
